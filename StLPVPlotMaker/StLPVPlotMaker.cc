@@ -178,10 +178,12 @@ void StLPVPlotMaker::DrawSeparate(){
     if(opt == 2)  legend->AddEntry(parity_nn, "#pi^{+}#pi^{-}", "p");
     legend->Draw();
 
-    TLatex*   tex = new TLatex(35, 0.0008, "200 GeV Au+Au Period5");
+    TLatex* tex = new TLatex(35, 0.0008, "200 GeV Au+Au Period5");
     tex->SetTextSize(0.05);
     tex->SetTextColor(1);
     tex->Draw();
+    
+    gPad->SetTicks(1, 1);
 }
 
 void StLPVPlotMaker::DrawDiff(){
@@ -195,7 +197,7 @@ void StLPVPlotMaker::DrawDiff(){
     gStyle->SetOptDate(0);
     gStyle->SetOptFit(0);
 
-    if(reverseAxis==1) for(int i=0;i<9;i++) cent[i] = xScale-cent[i];
+    if(reverseAxis==1) for(int i=0; i<9; i++) cent[i] = xScale-cent[i];
     // make the graph page
     int canvasWidth = 700, canvasHeight = 500;             // landscape
     TCanvas* can2 = new TCanvas("Flow_v2", "",canvasWidth, canvasHeight);
@@ -210,12 +212,12 @@ void StLPVPlotMaker::DrawDiff(){
     // make a histogram
     TString* histGraphName = new TString("Flow_v12");
     TH1F* histGraph = new TH1F(histGraphName->Data(), "", 24, 10, 80);
-    histGraph->SetMaximum(1);
+    histGraph->SetMaximum(1.5e-3);
     histGraph->SetMinimum(0.);
     histGraph->SetLineColor(kBlack);
     histGraph->SetXTitle("% Most Central");
     histGraph->GetXaxis()->SetTitleOffset(0.9);
-    histGraph->SetYTitle("EP resolution");
+    histGraph->SetYTitle("#gamma_{os-ss}");
     histGraph->GetYaxis()->SetTitleOffset(1.1);
     histGraph->GetYaxis()->SetNdivisions(505);
     double lsize = 0;
@@ -234,23 +236,29 @@ void StLPVPlotMaker::DrawDiff(){
 	A1->Draw();
     }
 
-    TGraphErrors* parity_diff = new TGraphErrors(mNCent, cent, 0, mGamma_diff_final, mGamma_diff_err_final);
+    TGraphErrors* parity_diff = new TGraphErrors(mNCent, cent, mGamma_diff_final, 0, mGamma_diff_err_final);
     parity_diff->SetMarkerStyle(kOpenStar);
     parity_diff->SetMarkerSize(1.5);
     parity_diff->SetMarkerColor(4);
     parity_diff->SetLineColor(1);
-    parity_diff->Draw("pe");
+    parity_diff->Draw("pe same");
 
     TLegend* legend = new TLegend(0.40, 0.82, 0.80, 0.92);
     legend->SetFillColor(0);
-    legend->SetTextSize(0.07);
+    legend->SetTextSize(0.04);
     legend->SetLineColor(0);
     legend->SetBorderSize(0);
-    legend->AddEntry(parity_diff, "Run2011 200 GeV Period5", "p");
+    legend->AddEntry(parity_diff, "#pi^{+}#pi^{-} - #pi^{+}#pi^{+}(#pi^{-}#pi^{-})", "p");
     legend->Draw();
 
-    TLatex *   tex = new TLatex(15,.04,"STAR preliminary");
-    tex->SetTextSize(0.045);
+    TLatex* tex = new TLatex(35, 0.0008, "200 GeV Au+Au Period5");
+    tex->SetTextSize(0.05);
     tex->SetTextColor(1);
+    tex->Draw();
+
+    gPad->SetTicks(1, 1);
+    //TLatex* tex = new TLatex(15,.04,"STAR preliminary");
+    //tex->SetTextSize(0.045);
+    //tex->SetTextColor(1);
     //tex->Draw();
 }
