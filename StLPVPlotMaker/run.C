@@ -3,7 +3,7 @@ void run(){
     gROOT->LoadMacro("./StLPVPlotMaker.cc++");
     StLPVPlotMaker* maker = new StLPVPlotMaker();
 
-    maker->Init(7, 10);
+    maker->Init(9, 10);
     maker->Compute();
     maker->DrawSeparate();
     maker->DrawDiff();
